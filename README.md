@@ -1,4 +1,4 @@
-![LeGo](preview.png =100x100)
+![LeGo](preview.png){width=50%}
 
 # LemonbarGo(LEGO)
 
