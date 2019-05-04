@@ -1,3 +1,4 @@
+![LeGo](preview.png)
 
 # LemonbarGo(LEGO)
 
