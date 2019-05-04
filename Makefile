@@ -32,3 +32,4 @@ clean:
 	sudo rm -f /usr/bin/lego_signal
 	sudo rm -f /usr/bin/kill_lego
 	./subscribe_cleanup
+	rm -rf  ${XDG_CONFIG_HOME}/lego
