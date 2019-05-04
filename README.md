@@ -1,4 +1,5 @@
 ![LeGo](preview.png)
+![LeGo2](preview_color.png)
 
 # LemonbarGo(LEGO)
 
