@@ -1,0 +1,6 @@
+#!/bin/bash
+
+mpc idleloop options player | while read line; do
+    echo 'music' > /tmp/lego_refresh
+    lego_signal
+done

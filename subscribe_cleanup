@@ -1,0 +1,8 @@
+#!/bin/bash
+
+
+for file in defaults/subscribe/*
+do
+    file=$(echo $file | sed "s/.*\///")
+    rm -rf /usr/bin/$file
+done

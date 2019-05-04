@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo $1 > /tmp/lego_refresh
+lego_signal &

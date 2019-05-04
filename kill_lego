@@ -1,0 +1,9 @@
+#!/bin/bash
+
+pkill -f lemonbar &> /dev/null
+pkill -f stalonetray &> /dev/null
+pkill -f subscribe &> /dev/null
+
+lego_signal "kill"
+
+# notify-send -t 2000 "GoLemon" "All subprocesses terminated"

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+LC_TIME=en_US.UTF-8
+# TIME=$(date "+%H:%M, %a %e")
+TIME=$(date "+%H:%M")
+echo -n "${TIME}"

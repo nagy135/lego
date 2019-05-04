@@ -1,0 +1,8 @@
+#!/bin/bash
+
+pid=$(ps aux | grep lego | grep -v vim | grep -v -e 'grep' | awk '{ print $2 }')
+if [[ $1 == "kill" ]]; then
+    kill -s SIGINT $pid 2> /dev/null
+else
+    kill -s SIGUSR1 $pid 2> /dev/null
+fi
