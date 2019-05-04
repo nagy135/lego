@@ -28,16 +28,35 @@ sudo make install
 ./lego
 ```
 
-## Running the tests
+### Config
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+Firstly check config
 
 ```
-Give an example
+left:music|packages
+center:workspaces
+right:torrent|volume|battery|brightness|redshift|wifi|layout|date
+
+separator=" %{F#FF0000}#%{F-} "
+powerline=true
+after_run=/home/infiniter/.scripts/lego_fix_layers
+
+# format #aarrggbb
+background=#ff0b0b0b
+
+font="Inconsolata for Powerline-19"
+font="FontAwesome-19"
+
+stalonetray--geometry=1x1+700+0
+stalonetray--grow-gravity=E
+stalonetray--icon-gravity=W
+stalonetray-bg=#0b0b0b
+
+[music
+    interval=0
+    color=#FF282A2E
+    subscribe=/usr/bin/subscribe_music
+]
 ```
 
 ### And coding style tests
