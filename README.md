@@ -30,7 +30,7 @@ sudo make install
 
 ### Config
 
-Firstly check config
+Sample config
 
 ```
 left:music|packages
@@ -57,6 +57,68 @@ stalonetray-bg=#0b0b0b
     color=#FF282A2E
     subscribe=/usr/bin/subscribe_music
 ]
+```
+
+First 3 lines define positions of blocks and their order
+
+```
+left:music|packages
+center:workspaces
+right:torrent|volume|battery|brightness|redshift|wifi|layout|date
+```
+
+Set separator character (if not using powerline mode)
+
+```
+separator=" %{F#FF0000}#%{F-} "
+```
+
+Turns on powerline mode, needs specified color for each block
+```
+powerline=true
+```
+
+Sets script that is ran after bar is created (to set your xorg layers properly). Features example used in BSPWM.
+```
+after_run=/home/infiniter/.scripts/lego_fix_layers
+```
+
+Sets background color, format #aarrggbb (allows transparency)
+
+```
+background=#ff0b0b0b
+```
+
+Accepts multiple fonts, uses them all (one for text, one icons)
+
+```
+font="Inconsolata for Powerline-19"
+font="FontAwesome-19"
+```
+
+Settings for stalonetray
+
+```
+stalonetray--geometry=1x1+700+0
+stalonetray--grow-gravity=E
+stalonetray--icon-gravity=W
+stalonetray-bg=#0b0b0b
+```
+
+
+Example block with name "music", no refresh interval, color #FF282A2E and enabled subscribe script. This script will be ran to refresh block on events.
+```
+[music
+    interval=0
+    color=#FF282A2E
+    subscribe=/usr/bin/subscribe_music
+]
+```
+
+Comments start with "#"
+
+```
+# Comment line
 ```
 
 ## License
