@@ -12,6 +12,7 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 Needs [lemonbar](https://github.com/LemonBoy/bar),preconfigured to work with [stalonetray](https://wiki.archlinux.org/index.php/Stalonetray) if installed.
+Lemonbar also support transparent background, but needs compositor (such as compton) to be running, otherwise transparency is ignored.
 
 ### Installing
 
@@ -122,6 +123,9 @@ Comments start with "#"
 ```
 # Comment line
 ```
+## Defaults
+
+Program provides some default brick scripts that are copied into ~/.config/lego/bricks ...most of them are made with golang and therefore need to be built for your device.
 
 ## License
 
