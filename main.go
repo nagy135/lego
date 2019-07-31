@@ -25,6 +25,18 @@ type timestamp struct {
 
 func main(){
     order, settings = ParseConfig()
+
+    // Logging
+    log_f, err := os.OpenFile(log_file, os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+    if err != nil {
+        log.Fatalf("error opening logging file: %v", err)
+    }
+    log.SetOutput(log_f)
+    defer log_f.Close()
+    // Logging
+
+    log.Println("### Starting LeGo ###")
+
     holder := make(map[string]string)
     init_holder(holder)
     history := make(map[string]time.Time)
@@ -35,11 +47,12 @@ func main(){
     timer := make(chan bool, 1)
 
     signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM, syscall.SIGUSR1)
+    log.Println("Starting subscribe scripts")
     for key,_ := range settings {
         if _, ok := settings[key]["subscribe"]; ok {
             sub_file := settings[key]["subscribe"]
 
-            sub := exec.Command("bash", sub_file)
+            sub := exec.Command("bash", sub_file, string(os.Getpid()))
             sub.Start()
         }
     }
@@ -49,9 +62,13 @@ func main(){
     }
 
     lemonbar_args := []string{"-p",
-        "-B", bg,
         "-F", "#CCCCCC",
-        "-g", "1920x25+0+0",
+    }
+    lemonbar_args = append(lemonbar_args[:1], "-g")
+    if geometry != "" {
+        lemonbar_args = append(lemonbar_args, geometry)
+    } else {
+        lemonbar_args = append(lemonbar_args, "1920x1080+0+0")
     }
     if len(fonts) > 0 {
         for _,val := range fonts {
@@ -62,25 +79,35 @@ func main(){
             lemonbar_args = append(lemonbar_args, back...)
         }
     }
+    lemonbar_args = append(lemonbar_args, "-B", bg)
 
     fmt.Println("lemonbar_args", lemonbar_args)
     go func() {
         fmt.Println("starting lemonbar")
+        log.Println("starting lemonbar")
         lemon := exec.Command("lemonbar", lemonbar_args...)
         lemon_in, _ := lemon.StdinPipe()
+        lemon_out, _ := lemon.StdoutPipe()
         lemon.Start()
+
+        bash := exec.Command("bash")
+        bash.Stdin = lemon_out
+        bash.Start()
 
         stalone_args := make([]string, 0)
 
         for key,val := range stalonetray_settings {
             stalone_args = append(stalone_args, key, val )
-
         }
+        // stalone_args = append(stalone_args, "-i", "16" )
+        // stalone_args = append(stalone_args, "--kludges", "15" )
+        log.Println("starting stalonetray")
         fmt.Println("stalonetray", strings.Join(stalone_args, " "))
         stalonetray := exec.Command("stalonetray", stalone_args...)
         stalonetray.Start()
 
         ticker := time.NewTicker(time.Second)
+        log.Println("starting timer")
         go func() {
             for _ = range ticker.C {
                 now := time.Now()
@@ -88,6 +115,7 @@ func main(){
                     then := history[key]
                     interval, _ := strconv.ParseFloat(settings[key]["interval"], 64)
                     if now.Sub(then).Seconds() >= interval && interval > 0{
+                        log.Println("timer refresh:", key)
                         history[key] = time.Now()
                         holder[key] = get_block(key)
                         timer <- true
@@ -103,6 +131,7 @@ func main(){
 
                 time.Sleep(time.Millisecond * 1000)
                 fmt.Println("running after_run script")
+                log.Println("running after_run script")
 
                 after_cmd := exec.Command("bash", after_run)
                 after_cmd.Stdout = mw
@@ -130,7 +159,8 @@ func main(){
                     case syscall.SIGUSR1:
                         refresh_targets, _ := ioutil.ReadFile("/tmp/lego_refresh")
                         refresh_targets_slices := strings.Split(strings.TrimSuffix(string(refresh_targets), "\n"), "|")
-                        fmt.Println("user signal: refreshing blocks", refresh_targets_slices)
+                        fmt.Println("signal refresh:", refresh_targets_slices)
+                        log.Println("signal refresh:", refresh_targets_slices)
                         for _, val := range refresh_targets_slices {
                             holder[val] = get_block(val)
                             lemon_in.Write([]byte(lemonize(holder)))
@@ -150,7 +180,11 @@ func main(){
 
 func init_holder(holder map[string]string){
     for key,_ := range settings {
-        holder[key] = get_block(key)
+        if settings[key]["skip_init"] == "true" {
+            holder[key] = "";
+        } else {
+            holder[key] = get_block(key)
+        }
     }
 }
 

@@ -13,9 +13,11 @@ var config_path = os.Getenv("XDG_CONFIG_HOME")
 var separator string
 var bg string = ""
 var left_click string
+var geometry string
 var powerline bool = false
 var after_run string
 var fonts []string
+var log_file = "/var/log/lego.log"
 var stalonetray_settings = make(map[string]string)
 
 func ParseConfig() (map[string][]string, map[string]map[string]string) {
@@ -50,9 +52,15 @@ func ParseConfig() (map[string][]string, map[string]map[string]string) {
         } else if strings.Contains(line, "powerline"){
             powerline_pair := strings.Split(line,"=")
             powerline, _ = strconv.ParseBool(powerline_pair[1])
+        } else if strings.Contains(line, "lemon_geometry"){
+            geometry_pair := strings.Split(line,"=")
+            geometry = string(geometry_pair[1])
         } else if strings.Contains(line, "after_run"){
             after_pair := strings.Split(line,"=")
             after_run = string(after_pair[1])
+        } else if strings.Contains(line, "log_file"){
+            log_pair := strings.Split(line,"=")
+            log_file = string(log_pair[1])
         } else if strings.Contains(line, "background"){
             bg_pair := strings.Split(line,"=")
             bg = string(bg_pair[1])

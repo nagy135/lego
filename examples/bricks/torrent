@@ -73,7 +73,7 @@ else
     echo -en $res
 fi
 
-if [[ $(($count1 + $count2 + $idle_count)) -gt 0 ]]; then
-    sleep 5
-    echo 'torrent' > /tmp/golemon_refresh; /home/infiniter/Code/GoLemon/signal ;
-fi
+# if [[ $(($count1 + $count2 + $idle_count)) -gt 0 ]]; then
+#     sleep 5
+#     echo 'torrent' > /tmp/golemon_refresh; /home/infiniter/Code/GoLemon/signal ;
+# fi

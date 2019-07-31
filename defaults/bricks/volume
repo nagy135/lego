@@ -1,4 +1,0 @@
-#!/bin/bash
-
-res=`bash /home/infiniter/Code/Pylemon/volume_data`
-echo -ne $res

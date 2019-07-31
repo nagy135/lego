@@ -6,4 +6,4 @@ if [[ ! -f /tmp/actual_brightness ]]; then
 else
     res=$(printf " %.0f" $(cat /tmp/actual_brightness))
 fi
-echo -ne "%{F#F9DC2b}$res%{F-}"
+echo -ne "%{F#F9DC2b}%{A:brightness_notification dim:}$res%{A}%{F-}"

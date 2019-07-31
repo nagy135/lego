@@ -1,6 +1,7 @@
 #!/bin/bash
 
-pid=$(ps aux | grep lego | grep -v vim | grep -v -e 'grep' | awk '{ print $2 }')
+# pid=$(ps aux | grep lego | grep -v vim | grep -v -e 'grep' | awk '{ print $2 }')
+pid=$(cat /tmp/lego.pid)
 if [[ $1 == "kill" ]]; then
     kill -s SIGINT $pid 2> /dev/null
 else

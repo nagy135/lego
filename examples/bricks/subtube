@@ -1,0 +1,7 @@
+#!/bin/bash
+
+news=$(find ~/.scripts/resources/thumbnails/* | wc -l)
+stack=$(find ~/.scripts/resources/subtube_queue | wc -l)
+if [[ $news -gt 0 ]] || [[ $stack -gt 0 ]]; then
+    echo -en " $news($stack)"
+fi

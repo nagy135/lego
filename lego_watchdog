@@ -1,0 +1,6 @@
+#!/bin/bash
+
+until $1; do
+    echo "[$(date)]: $1 crashed" >> ~/lego_subscribes.log
+    sleep 1
+done

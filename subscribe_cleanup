@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-for file in defaults/subscribe/*
+for file in examples/bricks/subscribe/*
 do
     file=$(echo $file | sed "s/.*\///")
     rm -rf /usr/bin/$file

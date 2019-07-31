@@ -2,5 +2,7 @@
 
 mpc idleloop options player | while read line; do
     echo 'music' > /tmp/lego_refresh
-    lego_signal
+    lego_signal &
 done
+echo "[$(date)] subscribe_music crashed" > ~/lego_subscribe.log
+exit 1

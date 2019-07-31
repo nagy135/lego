@@ -2,7 +2,8 @@
 
 res=$(xkblayout-state print "%s" | awk '{print toupper($0)}')
 if [[ $res == 'SK' ]]; then
-    echo -en "%{F#c22330}$res%{F-}"
+    res="%{F#c22330}$res%{F-}"
 else
-    echo -ne $res
+    res="%{F#d2e2e2}$res%{F-}"
 fi
+echo -en $res

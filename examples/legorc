@@ -1,21 +1,24 @@
 left:music|packages
 center:workspaces
-right:torrent|volume|battery|brightness|redshift|wifi|layout|date
+right:torrent|subtube|volume|battery|brightness|redshift|wifi|layout|date
 
-separator=" %{F#FF0000}#%{F-} "
+separator=" %{F#FF0000}·%{F-} "
 powerline=true
 after_run=/home/infiniter/.scripts/lego_fix_layers
+log_file=/home/infiniter/lego.log
 
 # format #aarrggbb
-background=#770b0b0b
+background=#110b0b0b
 
-font="Inconsolata for Powerline-15"
-font="FontAwesome-16"
+lemon_geometry=1920x25+0+0
+
+font="Source Code Pro for Powerline-16"
+font="FontAwesome-18"
 
 stalonetray--geometry=1x1+700+0
 stalonetray--grow-gravity=E
 stalonetray--icon-gravity=W
-stalonetray-bg=#b0b0b0
+stalonetray-bg=#0b0b0b
 
 [music
     interval=0
@@ -24,8 +27,9 @@ stalonetray-bg=#b0b0b0
 ]
 
 [packages
-    interval=60
+    interval=600
     color=#FF454A4F
+#    skip_init=true
 ]
 
 [workspaces
@@ -35,7 +39,7 @@ stalonetray-bg=#b0b0b0
 ]
 
 [torrent
-    interval=0
+    interval=60
     color=#FF282A2E
 ]
 
@@ -43,6 +47,12 @@ stalonetray-bg=#b0b0b0
     interval=0
     color=#FF454A4F
 ]
+
+[subtube
+    interval=60
+    color=#FF282A2E
+]
+
 [battery
     interval=60
     color=#FF282A2E

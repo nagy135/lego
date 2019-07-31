@@ -1,35 +1,42 @@
+.POSIX:
+
+OS = $(shell uname -s)
+ifeq ($(OS), Darwin)
+  PREFIX = /usr/local
+else
+  PREFIX = /usr
+endif
+ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+
 default: build
 
 installdep:
 	@go get
 
 build: installdep
+	go build
+	cd examples/bricks ; go build $(ROOT_DIR)/examples/bricks_src/music.go
+	cd examples/bricks ; go build $(ROOT_DIR)/examples/bricks_src/workspaces.go
+	cd examples/bricks ; go build $(ROOT_DIR)/examples/bricks_src/battery.go
 	mkdir -p ${XDG_CONFIG_HOME}/lego
-	cp defaults/legorc ${XDG_CONFIG_HOME}/lego/legorc
+	cp examples/legorc ${XDG_CONFIG_HOME}/lego/legorc
 	mkdir -p ${XDG_CONFIG_HOME}/lego/bricks
-	mkdir -p ${XDG_CONFIG_HOME}/lego/subscribe
-	cp -R defaults/bricks ${XDG_CONFIG_HOME}/lego
-	chmod +x -R ${XDG_CONFIG_HOME}/lego/bricks
-	cp -R defaults/subscribe ${XDG_CONFIG_HOME}/lego
-	@go build
+	chmod +x -R examples/bricks
+	for brick in examples/bricks/* ; do \
+		cp -f $$brick  ${XDG_CONFIG_HOME}/lego/bricks; \
+	done
+	chmod +x -R examples/subscribe
 
 install:
+	cp lego /usr/bin/lego
 	cp lego_signal /usr/bin/lego_signal
 	cp kill_lego /usr/bin/kill_lego
-	cp lego /usr/bin/lego
-	touch /tmp/lego_refresh
-	chmod 777 /tmp/lego_refresh
-	chmod +x -R  defaults/subscribe
-	cp -R defaults/subscribe/* /usr/bin
-	cp lego_refresh /usr/bin
+	cp lego_refresh /usr/bin/lego_refresh
+	chmod +x /usr/bin/lego
+	chmod +x /usr/bin/lego_signal
+	chmod +x /usr/bin/kill_lego
 	chmod +x /usr/bin/lego_refresh
 	chmod +x subscribe_cleanup
-	chown root /tmp/lego_refresh
-	chgrp root /tmp/lego_refresh
-
-clean:
-	sudo rm -f /usr/bin/lego_refresh
-	sudo rm -f /usr/bin/lego_signal
-	sudo rm -f /usr/bin/kill_lego
-	./subscribe_cleanup
-	rm -rf  ${XDG_CONFIG_HOME}/lego
+	touch /tmp/lego_refresh
+	chmod 777 /tmp/lego_refresh
+	cp -R examples/subscribe/* /usr/bin

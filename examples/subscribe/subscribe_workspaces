@@ -2,5 +2,7 @@
 bspc subscribe | while read line; do
     echo $line > /tmp/workspaces
     echo 'workspaces' > /tmp/lego_refresh
-    lego_signal
+    lego_signal &
 done
+echo "[$(date)] subscribe_workspaces crashed" > ~/lego_subscribe.log
+exit 1
